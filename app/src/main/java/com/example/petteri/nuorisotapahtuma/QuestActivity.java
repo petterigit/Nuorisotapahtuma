@@ -58,8 +58,10 @@ public class QuestActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, 0, 2, "New_item");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
+
         return true;
     }
 

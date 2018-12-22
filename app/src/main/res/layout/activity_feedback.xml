@@ -7,7 +7,7 @@
     tools:context=".FeedbackActivity">
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/editTextFB"
         android:layout_width="276dp"
         android:layout_height="163dp"
         android:layout_marginStart="8dp"
@@ -31,10 +31,26 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Button"
+        android:onClick="addFeedback"
+        android:text="Vahvista"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.921" />
+
+    <TextView
+        android:id="@+id/textViewFB"
+        android:layout_width="175dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.067" />
 </android.support.constraint.ConstraintLayout>
