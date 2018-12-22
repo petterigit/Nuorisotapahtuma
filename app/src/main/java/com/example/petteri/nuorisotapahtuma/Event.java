@@ -6,6 +6,7 @@ public class Event {
     private String ends;
     private String place;
     private String date;
+    private String info;
     private int agesFrom;
     private int agesTo;
 
@@ -17,7 +18,6 @@ public class Event {
         this.info = info;
     }
 
-    private String info;
 
     /* Getters and setters */
 

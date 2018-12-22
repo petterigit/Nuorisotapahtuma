@@ -46,7 +46,7 @@ public class QuestActivity extends AppCompatActivity {
 
 
         eventlist = EventList.getInstance();
-        eventlist.createEvent("Junnukertsi", "18:00", "22:00", "Ahjola");
+        eventlist.createEvent("Junnukertsi", "18:00", "22:00", "Ahjola", "Kivaa yhdessäoloa");
 
         eventTextView.setText(eventlist.getEvent(0).getName());
         beginsTextView.setText(eventlist.getEvent(0).getBegins());
@@ -98,6 +98,9 @@ public class QuestActivity extends AppCompatActivity {
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        String info = eventlist.getEvent(0).getInfo();
+        ((TextView)popupWindow.getContentView().findViewById(R.id.textViewInfo)).setText(info);
 
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window token
