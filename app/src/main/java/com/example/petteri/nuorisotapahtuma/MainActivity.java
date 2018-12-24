@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-public class QuestActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
 
     Event current_event;
@@ -31,11 +31,17 @@ public class QuestActivity extends AppCompatActivity {
 
     Context context;
 
+    Intent intent;
+
+    User user;
+
+    private static final int MENU_NEWITEM = Menu.FIRST + 2;
+    private static final int MENU_NEWITEM2 = Menu.FIRST + 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quest);
+        setContentView(R.layout.activity_main);
 
         eventTextView = (TextView) findViewById(R.id.textViewEventName);
         beginsTextView = (TextView) findViewById(R.id.textViewBegins);
@@ -45,8 +51,15 @@ public class QuestActivity extends AppCompatActivity {
         infoButton = (Button) findViewById(R.id.buttonInfo);
         infoPopup = new PopupWindow(this);
 
-
-
+        intent = getIntent();
+        String username = intent.getStringExtra("user");
+        if (username.equals("Guest")) {
+            user = new GuestUser();
+        } else if (username.equals("Super")) {
+            user = new SuperUser();
+        } else if (username.equals("Admin")) {
+            user = new AdminUser();
+        }
 
         eventlist = EventList.getInstance();
         eventlist.createEvent("Junnukertsi", "18:00", "22:00", "Ahjola",
@@ -64,7 +77,21 @@ public class QuestActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, 0, 2, "New_item");
+
+
+        if (user.name.equals("Guest")) {
+            // Do nothing
+        }
+        if (user.name.equals("Super")) {
+            // Guest+Super user menu items
+            menu.add(0, MENU_NEWITEM, Menu.NONE, "Text1");
+        }
+        if (user.name.equals("Admin")) {
+            // Guest+Super+Admin user menu items
+            menu.add(0, MENU_NEWITEM, Menu.NONE, "Text1");
+            menu.add(0, MENU_NEWITEM2, Menu.NONE, "Text2");
+        }
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
 
@@ -81,18 +108,22 @@ public class QuestActivity extends AppCompatActivity {
             case R.id.menu_id2:
                 System.out.println("Settings");
                 return true;
+            case MENU_NEWITEM:
+                System.out.println("New item");
+            case MENU_NEWITEM2:
+                System.out.println("New item 2");
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
 
-    public void launchFeedback(View quest) {
+    public void launchFeedback(View main) {
         Intent intent = new Intent(this, FeedbackActivity.class);
         startActivity(intent);
     }
 
-    public void showInfo(View quest) {
+    public void showInfo(View main) {
         /* From: https://stackoverflow.com/a/50188704 */
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
@@ -110,12 +141,12 @@ public class QuestActivity extends AppCompatActivity {
 
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window token
-        popupWindow.showAtLocation(quest, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(main, Gravity.CENTER, 0, 0);
 
         // dismiss the popup window when touched
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View quest, MotionEvent event) {
+            public boolean onTouch(View main, MotionEvent event) {
                 popupWindow.dismiss();
                 return true;
             }

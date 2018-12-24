@@ -17,11 +17,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".QuestActivity"
+            android:name=".MainActivity"
             android:label="Main Screen" />
         <activity
             android:name=".FeedbackActivity"
-            android:parentActivityName=".QuestActivity" />
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".PopupInfo" />
     </application>
 

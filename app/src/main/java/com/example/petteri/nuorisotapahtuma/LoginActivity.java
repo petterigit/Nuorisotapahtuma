@@ -10,6 +10,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText usernameText;
     EditText passwordText;
+    String usernameText_s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,24 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void launchMainActivity(View v) {
-        Intent intent = new Intent(this, QuestActivity.class);
-        startActivity(intent);
+
+        Intent intent = new Intent(this, MainActivity.class);
+
+        usernameText_s = usernameText.getText().toString();
+        System.out.println("usernameText_x: " + usernameText_s);
+        if (usernameText_s.equals("Guest")) {
+            intent.putExtra("user", "Guest");
+            startActivity(intent);
+        } else if (usernameText_s.equals("Super")) {
+            //super
+            intent.putExtra("user", "Super");
+            startActivity(intent);
+        } else if (usernameText_s.equals("Admin")) {
+            //admin
+            intent.putExtra("user", "Admin");
+            startActivity(intent);
+        } else {
+            System.out.println("User not found; Type Guest / Super / Admin");
+        }
     }
 }
