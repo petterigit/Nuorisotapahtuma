@@ -1,5 +1,6 @@
 package com.example.petteri.nuorisotapahtuma;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ public class QuestActivity extends AppCompatActivity {
     PopupWindow infoPopup;
     Button infoButton;
 
+    Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +49,16 @@ public class QuestActivity extends AppCompatActivity {
 
 
         eventlist = EventList.getInstance();
-        eventlist.createEvent("Junnukertsi", "18:00", "22:00", "Ahjola", "Kivaa yhdessäoloa");
+        eventlist.createEvent("Junnukertsi", "18:00", "22:00", "Ahjola",
+                "24/12", "Kivaa yhdessäoloa", 0, 0);
 
         eventTextView.setText(eventlist.getEvent(0).getName());
         beginsTextView.setText(eventlist.getEvent(0).getBegins());
         endsTextView.setText(eventlist.getEvent(0).getEnds());
         placeTextView.setText(eventlist.getEvent(0).getPlace());
 
+        XmlHandler xmlHandler = new XmlHandler();
+        xmlHandler.CreateXMLFileJava();
 
     }
 

@@ -20,13 +20,17 @@ public class EventList {
     public static EventList getInstance () {
         return instance;
     }
-    public void createEvent(String name, String begins, String ends, String place, String info) {
+    /*public void createEvent(String name, String begins, String ends, String place, String info) {
         Event new_event = new Event();
         new_event.setName(name);
         new_event.setBegins(begins);
         new_event.setEnds(ends);
         new_event.setPlace(place);
         new_event.setInfo(info);
+        event_list.add(new_event);
+    }*/
+    public void createEvent(String name, String begins, String ends, String place, String date, String info, int agesFrom, int agesTo) {
+        Event new_event = new Event(name, begins, ends, place, date, info, agesFrom, agesTo);
         event_list.add(new_event);
     }
 

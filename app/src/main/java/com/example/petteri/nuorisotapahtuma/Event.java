@@ -10,6 +10,17 @@ public class Event {
     private int agesFrom;
     private int agesTo;
 
+    public Event(String name, String begins, String ends, String place, String date, String info, int agesFrom, int agesTo) {
+        this.name = name;
+        this.begins = begins;
+        this.ends = ends;
+        this.place = place;
+        this.date = date;
+        this.info = info;
+        this.agesFrom = agesFrom;
+        this.agesTo = agesTo;
+    }
+
     public String getInfo() {
         return info;
     }
