@@ -2,6 +2,7 @@ package com.example.petteri.nuorisotapahtuma;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -43,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        context = this.getApplicationContext();
+
         eventTextView = (TextView) findViewById(R.id.textViewEventName);
         beginsTextView = (TextView) findViewById(R.id.textViewBegins);
         endsTextView = (TextView) findViewById(R.id.textViewEnds);
@@ -62,16 +68,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
         eventlist = EventList.getInstance();
-        eventlist.createEvent("Junnukertsi", "18:00", "22:00", "Ahjola",
+
+        XmlHandler xmlHandler = new XmlHandler();
+        xmlHandler.initXML(context);
+        xmlHandler.readXML(context);
+
+        eventlist.createEvent("Junnukertsi Aamu", "12:00", "16:00", "Ahjola",
                 "24/12", "Kivaa yhdessäoloa", 0, 0);
+
+        eventlist.createEvent("Junnukertsi Ilta", "18:00", "22:00", "Ahjola",
+                "24/12", "Kivaa yhdessäoloa", 0, 0);
+
+        eventlist.printEvents();
 
         eventTextView.setText(eventlist.getEvent(0).getName());
         beginsTextView.setText(eventlist.getEvent(0).getBegins());
         endsTextView.setText(eventlist.getEvent(0).getEnds());
         placeTextView.setText(eventlist.getEvent(0).getPlace());
 
-        XmlHandler xmlHandler = new XmlHandler();
-        xmlHandler.CreateXMLFileJava();
+
+
 
     }
 
@@ -84,11 +100,11 @@ public class MainActivity extends AppCompatActivity {
         }
         if (user.name.equals("Super")) {
             // Guest+Super user menu items
-            menu.add(0, MENU_NEWITEM, Menu.NONE, "Text1");
+            menu.add(0, MENU_NEWITEM, Menu.NONE, "Events");
         }
         if (user.name.equals("Admin")) {
             // Guest+Super+Admin user menu items
-            menu.add(0, MENU_NEWITEM, Menu.NONE, "Text1");
+            menu.add(0, MENU_NEWITEM, Menu.NONE, "Events");
             menu.add(0, MENU_NEWITEM2, Menu.NONE, "Text2");
         }
 
@@ -104,12 +120,15 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_id1:
                 System.out.println("Logout");
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.menu_id2:
                 System.out.println("Settings");
                 return true;
             case MENU_NEWITEM:
-                System.out.println("New item");
+                System.out.println("Events");
+                launchEvents();
             case MENU_NEWITEM2:
                 System.out.println("New item 2");
             default:
@@ -120,6 +139,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchFeedback(View main) {
         Intent intent = new Intent(this, FeedbackActivity.class);
+        startActivity(intent);
+    }
+
+    public void launchEvents() {
+        Intent intent = new Intent(this, EventActivity.class);
         startActivity(intent);
     }
 

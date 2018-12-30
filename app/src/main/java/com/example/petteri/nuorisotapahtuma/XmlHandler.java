@@ -1,11 +1,17 @@
 package com.example.petteri.nuorisotapahtuma;
 
+
 import android.content.Context;
-import android.util.Log;
+import android.content.ContextWrapper;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,65 +21,121 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-/*https://examples.javacodegeeks.com/core-java/xml/parsers/documentbuilderfactory/create-xml-file-in-java-using-dom-parser-example/ */
 
 public class XmlHandler {
 
+    ContextWrapper contextWrapper;
 
+    private static XmlHandler instance = new XmlHandler();
 
-    public void CreateXMLFileJava() {
+    public static XmlHandler getInstance() {
+        return instance;
+    }
+    // ContextWrapper.getFilesDir()
 
+    public void readXML(Context context) {
+        contextWrapper = new ContextWrapper(context);
+        String fileLoc = contextWrapper.getFilesDir().toString();
+        fileLoc = fileLoc + "/EventsXML.xml";
+        EventList event_list = EventList.getInstance();
         try {
+            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            Document doc = builder.parse(new File(fileLoc));
+            doc.getDocumentElement().normalize();
+            NodeList nodelist = doc.getDocumentElement().getElementsByTagName("Event");
+            for (int i = 0; i < nodelist.getLength(); i++) {
+                Node node = nodelist.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    System.out.println("Here?");
+                    Element element = (Element) node;
+                    //String name, String begins, String ends, String place, String date, String info, int agesFrom, int agesTo
+                    String e_name = element.getElementsByTagName("name").item(0).getTextContent();
+                    String e_begins = element.getElementsByTagName("begins").item(0).getTextContent();
+                    String e_ends = element.getElementsByTagName("ends").item(0).getTextContent();
+                    String e_place = element.getElementsByTagName("place").item(0).getTextContent();
+                    String e_date = element.getElementsByTagName("date").item(0).getTextContent();
+                    String e_info = element.getElementsByTagName("info").item(0).getTextContent();
+                    int e_agesFrom = Integer.parseInt(element.getElementsByTagName("agesFrom").item(0).getTextContent());
+                    int e_agesTo = Integer.parseInt(element.getElementsByTagName("agesTo").item(0).getTextContent());
 
-            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+                    event_list.createEvent(e_name, e_begins, e_ends, e_place, e_date, e_info, e_agesFrom, e_agesTo);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("Done reading from: " + fileLoc);
+        }
+    }
 
-            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
 
+    /* Created with example from:
+        https://examples.javacodegeeks.com/core-java/xml/parsers/documentbuilderfactory/create-xml-file-in-java-using-dom-parser-example/
+     */
+    public void initXML(Context context) {
+
+        contextWrapper = new ContextWrapper(context);
+        String fileLoc = contextWrapper.getFilesDir().toString();
+        fileLoc = fileLoc + "/EventsXML.xml";
+        try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.newDocument();
 
-            // root element
-            Element root = document.createElement("Events");
+            Element root = document.createElement("Event");
             document.appendChild(root);
 
-            // event element
-            Element event = document.createElement("Event");
+            //String name, String begins, String ends, String place, String date, String info, int agesFrom, int agesTo
+            Element name = document.createElement("name");
+            name.appendChild(document.createTextNode("Junnukertsi Yö"));
+            root.appendChild(name);
 
-            root.appendChild(event);
+            Element begins = document.createElement("begins");
+            begins.appendChild(document.createTextNode("02:00"));
+            name.appendChild(begins);
 
-            // firstname element
-            Element eventName = document.createElement("eventName");
-            eventName.appendChild(document.createTextNode("Junnukertsi"));
-            event.appendChild(eventName);
+            Element ends = document.createElement("ends");
+            ends.appendChild(document.createTextNode("06:00"));
+            name.appendChild(ends);
 
-            // lastname element
-            Element eventPlace = document.createElement("eventPlace");
-            eventPlace.appendChild(document.createTextNode("Ahjola"));
-            event.appendChild(eventPlace);
+            Element place = document.createElement("place");
+            place.appendChild(document.createTextNode("Ahjola"));
+            name.appendChild(place);
 
-            // create the xml file
-            //transform the DOM Object to an XML File
+            Element date = document.createElement("date");
+            date.appendChild(document.createTextNode("01/01"));
+            name.appendChild(date);
+
+            Element info = document.createElement("info");
+            info.appendChild(document.createTextNode("Jee"));
+            name.appendChild(info);
+
+            Element agesFrom = document.createElement("agesFrom");
+            agesFrom.appendChild(document.createTextNode("18"));
+            name.appendChild(agesFrom);
+
+            Element agesTo = document.createElement("agesTo");
+            agesTo.appendChild(document.createTextNode("99"));
+            name.appendChild(agesTo);
+
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource domSource = new DOMSource(document);
-            StreamResult streamResult = new StreamResult(System.out);
-
-            // If you use
-            // StreamResult result = new StreamResult(System.out);
-            // the output will be pushed to the standard output ...
-            // You can use that for debugging
+            StreamResult streamResult = new StreamResult(new File(fileLoc));
 
             transformer.transform(domSource, streamResult);
 
-            System.out.println("Done creating XML File");
-
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
-        } catch (TransformerException tfe) {
-            tfe.printStackTrace();
+        } catch (TransformerException te) {
+            te.printStackTrace();
+        } finally {
+            System.out.println("Initialized xml file to: " + fileLoc);
         }
+
     }
 }

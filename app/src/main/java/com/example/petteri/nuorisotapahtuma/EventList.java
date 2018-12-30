@@ -7,14 +7,14 @@ public class EventList {
     // The array for the Event-objects
 
     private static EventList instance = new EventList();
-    private List<Event> event_list = new ArrayList<Event>();
+    private ArrayList<Event> event_list = new ArrayList<Event>();
 
-    public List<Event> getEvent_list() {
+    public ArrayList<Event> getEvent_list() {
         return event_list;
     }
 
-    public void removeEvent(int bottle_nr) {
-        event_list.remove(bottle_nr);
+    public void removeEvent(int index) {
+        event_list.remove(index);
     }
 
     public static EventList getInstance () {
@@ -28,6 +28,14 @@ public class EventList {
 
     public Event getEvent(int i) {
         return event_list.get(i);
+    }
+
+    public void printEvents() {
+        for (int i = 0; i < event_list.size(); i++) {
+            Event e = event_list.get(i);
+            System.out.println("Event " + i + ": " + e.getName());
+        }
+
     }
 
 
