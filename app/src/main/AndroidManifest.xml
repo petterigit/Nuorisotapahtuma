@@ -23,8 +23,12 @@
             android:name=".FeedbackActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".PopupInfo" />
-        <activity android:name=".EventActivity" />
-        <activity android:name=".activity_employees"></activity>
+        <activity
+            android:name=".EventActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".activity_employees" />
+        <activity android:name=".EventViewActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
     </application>
 
 </manifest>

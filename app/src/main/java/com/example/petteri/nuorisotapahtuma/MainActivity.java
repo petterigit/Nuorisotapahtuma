@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
     Intent intent;
 
-    User user;
+    static User user;
 
-    private static final int MENU_NEWITEM = Menu.FIRST + 2;
-    private static final int MENU_NEWITEM2 = Menu.FIRST + 3;
+    private static final int MENU_EVENTS = Menu.FIRST + 2;
+    private static final int MENU_ADMIN = Menu.FIRST + 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +58,15 @@ public class MainActivity extends AppCompatActivity {
         infoPopup = new PopupWindow(this);
 
         intent = getIntent();
-        String username = intent.getStringExtra("user");
-        if (username.equals("Guest")) {
-            user = new GuestUser();
-        } else if (username.equals("Super")) {
-            user = new SuperUser();
-        } else if (username.equals("Admin")) {
-            user = new AdminUser();
+        if ((intent.getStringExtra("user"))!=null) {
+            String username = intent.getStringExtra("user");
+            if (username.equals("Guest")) {
+                user = new GuestUser();
+            } else if (username.equals("Super")) {
+                user = new SuperUser();
+            } else if (username.equals("Admin")) {
+                user = new AdminUser();
+            }
         }
 
         eventlist = EventList.getInstance();
@@ -73,11 +75,7 @@ public class MainActivity extends AppCompatActivity {
         xmlHandler.initXML(context);
         xmlHandler.readXML(context);
 
-        eventlist.createEvent("Junnukertsi Aamu", "12:00", "16:00", "Ahjola",
-                "24/12", "Kivaa yhdessäoloa", 0, 0);
 
-        eventlist.createEvent("Junnukertsi Ilta", "18:00", "22:00", "Ahjola",
-                "24/12", "Kivaa yhdessäoloa", 0, 0);
 
         eventlist.printEvents();
 
@@ -100,12 +98,12 @@ public class MainActivity extends AppCompatActivity {
         }
         if (user.name.equals("Super")) {
             // Guest+Super user menu items
-            menu.add(0, MENU_NEWITEM, Menu.NONE, "Events");
+            menu.add(0, MENU_EVENTS, Menu.NONE, "Events");
         }
         if (user.name.equals("Admin")) {
             // Guest+Super+Admin user menu items
-            menu.add(0, MENU_NEWITEM, Menu.NONE, "Events");
-            menu.add(0, MENU_NEWITEM2, Menu.NONE, "Text2");
+            menu.add(0, MENU_EVENTS, Menu.NONE, "Events");
+            menu.add(0, MENU_ADMIN, Menu.NONE, "Example menu item");
         }
 
         MenuInflater inflater = getMenuInflater();
@@ -123,14 +121,11 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.menu_id2:
-                System.out.println("Settings");
-                return true;
-            case MENU_NEWITEM:
+            case MENU_EVENTS:
                 System.out.println("Events");
                 launchEvents();
-            case MENU_NEWITEM2:
-                System.out.println("New item 2");
+            case MENU_ADMIN:
+                System.out.println("Example menu item for admin user");
             default:
                 return super.onOptionsItemSelected(item);
         }

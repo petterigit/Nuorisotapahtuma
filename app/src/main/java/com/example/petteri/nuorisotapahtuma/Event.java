@@ -7,22 +7,36 @@ public class Event {
     private String place;
     private String date;
     private String info;
-    private int agesFrom;
-    private int agesTo;
+    private String ages;
+
+    public String getVisitors() {
+        return visitors;
+    }
+
+    public void setVisitors(String visitors) {
+        this.visitors = visitors;
+    }
+
+    private String visitors;
+
+    private FeedBackList feedBackList = new FeedBackList();
+
+    public FeedBackList getFeedBackList () {
+        return feedBackList;
+    }
 
     public String toString() {
         return name;
     }
 
-    public Event(String name, String begins, String ends, String place, String date, String info, int agesFrom, int agesTo) {
+    public Event(String name, String begins, String ends, String place, String date, String info, String ages) {
         this.name = name;
         this.begins = begins;
         this.ends = ends;
         this.place = place;
         this.date = date;
         this.info = info;
-        this.agesFrom = agesFrom;
-        this.agesTo = agesTo;
+        this.ages = ages;
     }
 
     public String getInfo() {
@@ -40,13 +54,9 @@ public class Event {
 
     public void setDate(String date) {this.date = date; }
 
-    public int getAgesFrom() {return agesFrom; }
+    public String getAges() {return ages; }
 
-    public void setAgesFrom(int agesFrom) {this.agesFrom = agesFrom; }
-
-    public int getAgesTo() {return agesTo; }
-
-    public void setAgesTo(int agesTo) { this.agesTo = agesTo; }
+    public void setAges(String ages) {this.ages = ages; }
 
     public String getPlace() {
         return place;

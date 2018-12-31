@@ -12,6 +12,7 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -37,28 +38,30 @@ public class XmlHandler {
         contextWrapper = new ContextWrapper(context);
         String fileLoc = contextWrapper.getFilesDir().toString();
         fileLoc = fileLoc + "/EventsXML.xml";
+        File xmlFile = new File(fileLoc);
         EventList event_list = EventList.getInstance();
         try {
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document doc = builder.parse(new File(fileLoc));
+            Document doc = builder.parse(xmlFile);
             doc.getDocumentElement().normalize();
+
             NodeList nodelist = doc.getDocumentElement().getElementsByTagName("Event");
+            System.out.println("Or hereasd");
             for (int i = 0; i < nodelist.getLength(); i++) {
                 Node node = nodelist.item(i);
+                System.out.println("Or here");
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     System.out.println("Here?");
                     Element element = (Element) node;
-                    //String name, String begins, String ends, String place, String date, String info, int agesFrom, int agesTo
                     String e_name = element.getElementsByTagName("name").item(0).getTextContent();
                     String e_begins = element.getElementsByTagName("begins").item(0).getTextContent();
                     String e_ends = element.getElementsByTagName("ends").item(0).getTextContent();
                     String e_place = element.getElementsByTagName("place").item(0).getTextContent();
                     String e_date = element.getElementsByTagName("date").item(0).getTextContent();
                     String e_info = element.getElementsByTagName("info").item(0).getTextContent();
-                    int e_agesFrom = Integer.parseInt(element.getElementsByTagName("agesFrom").item(0).getTextContent());
-                    int e_agesTo = Integer.parseInt(element.getElementsByTagName("agesTo").item(0).getTextContent());
+                    String e_ages = element.getElementsByTagName("ages").item(0).getTextContent();
 
-                    event_list.createEvent(e_name, e_begins, e_ends, e_place, e_date, e_info, e_agesFrom, e_agesTo);
+                    event_list.createEvent(e_name, e_begins, e_ends, e_place, e_date, e_info, e_ages);
                 }
             }
         } catch (IOException e) {
@@ -86,41 +89,106 @@ public class XmlHandler {
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.newDocument();
 
-            Element root = document.createElement("Event");
-            document.appendChild(root);
+            Element root0 = document.createElement("Events");
+            document.appendChild(root0);
 
-            //String name, String begins, String ends, String place, String date, String info, int agesFrom, int agesTo
+            Element root = document.createElement("Event");
+            root0.appendChild(root);
+
             Element name = document.createElement("name");
             name.appendChild(document.createTextNode("Junnukertsi Yö"));
             root.appendChild(name);
 
             Element begins = document.createElement("begins");
             begins.appendChild(document.createTextNode("02:00"));
-            name.appendChild(begins);
+            root.appendChild(begins);
 
             Element ends = document.createElement("ends");
             ends.appendChild(document.createTextNode("06:00"));
-            name.appendChild(ends);
+            root.appendChild(ends);
 
             Element place = document.createElement("place");
             place.appendChild(document.createTextNode("Ahjola"));
-            name.appendChild(place);
+            root.appendChild(place);
 
             Element date = document.createElement("date");
             date.appendChild(document.createTextNode("01/01"));
-            name.appendChild(date);
+            root.appendChild(date);
 
             Element info = document.createElement("info");
             info.appendChild(document.createTextNode("Jee"));
-            name.appendChild(info);
+            root.appendChild(info);
 
-            Element agesFrom = document.createElement("agesFrom");
-            agesFrom.appendChild(document.createTextNode("18"));
-            name.appendChild(agesFrom);
+            Element ages = document.createElement("ages");
+            ages.appendChild(document.createTextNode("18-99"));
+            root.appendChild(ages);
 
-            Element agesTo = document.createElement("agesTo");
-            agesTo.appendChild(document.createTextNode("99"));
-            name.appendChild(agesTo);
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource domSource = new DOMSource(document);
+            StreamResult streamResult = new StreamResult(new File(fileLoc));
+
+            transformer.transform(domSource, streamResult);
+
+        } catch (ParserConfigurationException pce) {
+            pce.printStackTrace();
+        } catch (TransformerException te) {
+            te.printStackTrace();
+        } finally {
+            System.out.println("Initialized xml file to: " + fileLoc);
+        }
+
+    }
+
+    public void writeXML(Context context) {
+        contextWrapper = new ContextWrapper(context);
+        String fileLoc = contextWrapper.getFilesDir().toString();
+        fileLoc = fileLoc + "/EventsXML.xml";
+
+        ArrayList<Event> eventList = EventList.getInstance().getEvent_list();
+
+        try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.newDocument();
+
+            for (int i = 0; i < eventList.size(); i++) {
+                Event event = eventList.get(i);
+
+                Element root0 = document.createElement("Events");
+                document.appendChild(root0);
+
+                Element root = document.createElement("Event");
+                root0.appendChild(root);
+
+                Element name = document.createElement("name");
+                name.appendChild(document.createTextNode(event.getName()));
+                root.appendChild(name);
+
+                Element begins = document.createElement("begins");
+                begins.appendChild(document.createTextNode(event.getBegins()));
+                root.appendChild(begins);
+
+                Element ends = document.createElement("ends");
+                ends.appendChild(document.createTextNode(event.getEnds()));
+                root.appendChild(ends);
+
+                Element place = document.createElement("place");
+                place.appendChild(document.createTextNode(event.getPlace()));
+                root.appendChild(place);
+
+                Element date = document.createElement("date");
+                date.appendChild(document.createTextNode(event.getDate()));
+                root.appendChild(date);
+
+                Element info = document.createElement("info");
+                info.appendChild(document.createTextNode(event.getInfo()));
+                root.appendChild(info);
+
+                Element ages = document.createElement("ages");
+                ages.appendChild(document.createTextNode(event.getAges()));
+                root.appendChild(ages);
+            }
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();

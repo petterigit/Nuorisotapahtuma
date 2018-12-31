@@ -1,9 +1,22 @@
 package com.example.petteri.nuorisotapahtuma;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class EventList {
+
+
+    // Init
+
+    private EventList() {
+        Event newEvent1 = new Event("Junnukertsi Aamu", "12:00", "16:00", "Ahjola",
+                "24/12", "Kivaa yhdessäoloa", "6-10");
+        event_list.add(newEvent1);
+
+        Event newEvent2 = new Event("Junnukertsi Ilta", "18:00", "22:00", "Ahjola",
+                "24/12", "Kivaa yhdessäoloa", "10-16");
+        event_list.add(newEvent2);
+    }
+
     // The array for the Event-objects
 
     private static EventList instance = new EventList();
@@ -21,11 +34,16 @@ public class EventList {
         return instance;
     }
 
-    public void createEvent(String name, String begins, String ends, String place, String date, String info, int agesFrom, int agesTo) {
-        Event new_event = new Event(name, begins, ends, place, date, info, agesFrom, agesTo);
+    public void createEvent(String name, String begins, String ends, String place, String date, String info, String ages) {
+        Event new_event = new Event(name, begins, ends, place, date, info, ages);
         event_list.add(new_event);
     }
 
+    public void setIndexZero(int Index) {
+        Event event = event_list.get(Index);
+        event_list.set(event_list.indexOf(event), event_list.get(0));
+        event_list.set(0, event);
+    }
     public Event getEvent(int i) {
         return event_list.get(i);
     }

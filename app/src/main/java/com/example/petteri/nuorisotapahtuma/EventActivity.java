@@ -1,5 +1,6 @@
 package com.example.petteri.nuorisotapahtuma;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -46,7 +47,19 @@ public class EventActivity extends AppCompatActivity {
         refresh();
     }
 
-    public void addEvent(View asd) {
+    public void addEvent(View v) {
+        EventList.getInstance().createEvent("Uusi tapahtuma", "", "",
+                "", "", "", "");
+        refresh();
+    }
 
+    public void startEvent(View v) {
+        EventList.getInstance().setIndexZero(selectedIndex);
+    }
+
+    public void launchEventView(View v) {
+        Intent intent = new Intent(this, EventViewActivity.class);
+        intent.putExtra("index", selectedIndex);
+        startActivity(intent);
     }
 }
