@@ -64,7 +64,9 @@ public class EventActivity extends AppCompatActivity {
 
     /* Set event index to zero, thus making it active */
     public void startEvent(View v) {
+
         EventList.getInstance().setIndexZero(selectedIndex);
+        refresh();
     }
 
     /* Launch event modify activity
