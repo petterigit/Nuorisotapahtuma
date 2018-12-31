@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+/* Feedback Activity to give feedback */
 public class FeedbackActivity extends AppCompatActivity {
 
     FeedBackList feedbacklist;
@@ -25,6 +26,7 @@ public class FeedbackActivity extends AppCompatActivity {
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
     }
 
+    /* Saves given feedback, and returns to parent activity with finish() */
     public void addFeedback(View fb) {
         feedbacklist = EventList.getInstance().getEvent(0).getFeedBackList();
 

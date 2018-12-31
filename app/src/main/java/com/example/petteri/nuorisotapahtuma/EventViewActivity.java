@@ -19,6 +19,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+/* Event view activity to show and modify events info */
+
 public class EventViewActivity extends AppCompatActivity {
 
     EditText editName;
@@ -71,11 +73,13 @@ public class EventViewActivity extends AppCompatActivity {
         fbListView = (ListView) findViewById(R.id.feedBackListView);
         ArrayList<FeedBack> feedBackList = event.getFeedBackList().getFeedBack_list();
 
+        /* Set list items using ArrayAdapter */
         ArrayAdapter<FeedBack> adapter_t = new ArrayAdapter<FeedBack>(this,
                 android.R.layout.simple_expandable_list_item_1, feedBackList);
         adapter_t.setDropDownViewResource(android.R.layout.simple_list_item_1);
         fbListView.setAdapter(adapter_t);
 
+        /* OnClickListener set, but not used */
         fbListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapter_t, View v, int position, long id) {
             }
@@ -85,6 +89,7 @@ public class EventViewActivity extends AppCompatActivity {
 
     }
 
+    /* Saves info and starts EventActivity */
     public void saveEvent(View v) {
         Event event = EventList.getInstance().getEvent(index);
 
@@ -103,6 +108,7 @@ public class EventViewActivity extends AppCompatActivity {
 
     }
 
+    /* Starts EventActivity without saving */
     public void back(View v) {
         Intent intent = new Intent(this, EventActivity.class);
         startActivity(intent);

@@ -1,6 +1,7 @@
 package com.example.petteri.nuorisotapahtuma;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import java.io.File;
+
+/* Main view for the application */
 public class MainActivity extends AppCompatActivity {
 
 
@@ -36,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     static User user;
 
+    /* Assigns Events as second, and Admin as third option
+    *  Logout given in xml
+     */
     private static final int MENU_EVENTS = Menu.FIRST + 2;
     private static final int MENU_ADMIN = Menu.FIRST + 3;
 
@@ -57,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         infoButton = (Button) findViewById(R.id.buttonInfo);
         infoPopup = new PopupWindow(this);
 
+        /* Sets user depending on given username
+         * Could've been done in login activity, since user was
+          * later set static */
         intent = getIntent();
         if ((intent.getStringExtra("user"))!=null) {
             String username = intent.getStringExtra("user");
@@ -71,17 +81,20 @@ public class MainActivity extends AppCompatActivity {
 
         eventlist = EventList.getInstance();
 
+        /* Initialize xml files */
         XmlHandler xmlHandler = new XmlHandler();
-        xmlHandler.initXML(context);
-        xmlHandler.readXML(context);
+        xmlHandler.writeXML(context);
 
+        /* ReadXML may not work properly, if not events are created with constructor */
+        if (!(eventlist.getInstance().getEvent_list().isEmpty())) {
+            xmlHandler.readXML(context);
+        }
 
-
-        eventlist.printEvents();
+        //eventlist.printEvents();
 
         eventTextView.setText(eventlist.getEvent(0).getName());
-        beginsTextView.setText(eventlist.getEvent(0).getBegins());
-        endsTextView.setText(eventlist.getEvent(0).getEnds());
+        beginsTextView.setText(eventlist.getEvent(0).getBegins() + " - " + eventlist.getEvent(0).getEnds());
+        endsTextView.setText("Iät: " + eventlist.getEvent(0).getAges());
         placeTextView.setText(eventlist.getEvent(0).getPlace());
 
 
@@ -89,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /* Creates options menu with items matching user permissions */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -112,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /* Sets functions for different items */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -131,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public void launchFeedback(View main) {
         Intent intent = new Intent(this, FeedbackActivity.class);
         startActivity(intent);
@@ -142,8 +156,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /* Function to show info popup
+     * Done with example from:
+     * https://stackoverflow.com/a/50188704
+     */
     public void showInfo(View main) {
-        /* From: https://stackoverflow.com/a/50188704 */
+
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);

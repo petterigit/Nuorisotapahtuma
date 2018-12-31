@@ -23,6 +23,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+
+/* XML Handler to read and write xml files */
 public class XmlHandler {
 
     ContextWrapper contextWrapper;
@@ -140,6 +142,9 @@ public class XmlHandler {
 
     }
 
+    /* Created with example from:
+        https://examples.javacodegeeks.com/core-java/xml/parsers/documentbuilderfactory/create-xml-file-in-java-using-dom-parser-example/
+     */
     public void writeXML(Context context) {
         contextWrapper = new ContextWrapper(context);
         String fileLoc = contextWrapper.getFilesDir().toString();
@@ -156,7 +161,6 @@ public class XmlHandler {
                 Event event = eventList.get(i);
 
                 Element root0 = document.createElement("Events");
-                document.appendChild(root0);
 
                 Element root = document.createElement("Event");
                 root0.appendChild(root);

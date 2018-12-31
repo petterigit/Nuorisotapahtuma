@@ -1,5 +1,6 @@
 package com.example.petteri.nuorisotapahtuma;
 
+/* Class for Event */
 public class Event {
     private String name;
     private String begins;
@@ -8,27 +9,18 @@ public class Event {
     private String date;
     private String info;
     private String ages;
-
-    public String getVisitors() {
-        return visitors;
-    }
-
-    public void setVisitors(String visitors) {
-        this.visitors = visitors;
-    }
-
     private String visitors;
 
+    /* Event contains one feedback list */
     private FeedBackList feedBackList = new FeedBackList();
 
-    public FeedBackList getFeedBackList () {
-        return feedBackList;
-    }
 
+    /* ToString changes default name when class is called */
     public String toString() {
         return name;
     }
 
+    /* Constructor */
     public Event(String name, String begins, String ends, String place, String date, String info, String ages) {
         this.name = name;
         this.begins = begins;
@@ -39,6 +31,18 @@ public class Event {
         this.ages = ages;
     }
 
+
+
+
+    /* Getters and setters */
+    public String getVisitors() {
+        return visitors;
+    }
+
+    public void setVisitors(String visitors) {
+        this.visitors = visitors;
+    }
+
     public String getInfo() {
         return info;
     }
@@ -47,8 +51,9 @@ public class Event {
         this.info = info;
     }
 
-
-    /* Getters and setters */
+    public FeedBackList getFeedBackList () {
+        return feedBackList;
+    }
 
     public String getDate() {return date; }
 

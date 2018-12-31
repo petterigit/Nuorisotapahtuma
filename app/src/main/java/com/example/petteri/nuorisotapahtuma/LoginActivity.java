@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+/* Login activity to handle different user permissions */
+
 public class LoginActivity extends AppCompatActivity {
 
     EditText usernameText;
@@ -28,6 +30,9 @@ public class LoginActivity extends AppCompatActivity {
 
         usernameText_s = usernameText.getText().toString();
         System.out.println("usernameText_x: " + usernameText_s);
+
+        /* Launches main activity and passes given username with putExtra
+        *  Prints to stdout if username is wrong */
         if (usernameText_s.equals("Guest")) {
             intent.putExtra("user", "Guest");
             startActivity(intent);

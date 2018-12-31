@@ -1,14 +1,19 @@
 package com.example.petteri.nuorisotapahtuma;
 
+/* Feedback class to store feedback */
 public class FeedBack {
     private String FeedBack_string;
     private String Rating;
     private String GivenBy;
 
+    /* toString changes default name when class is called
+    *  Used to show feedback in one line
+    *  */
     public String toString() {
         return FeedBack_string + ", " + Rating + " Tähteä " + ", " + GivenBy;
     }
 
+    /* Getters and setters */
     public String getFeedBack_string() {
         return FeedBack_string;
     }

@@ -17,8 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="Main Screen" />
+            android:name=".MainActivity" />
         <activity
             android:name=".FeedbackActivity"
             android:parentActivityName=".MainActivity" />
@@ -26,7 +25,6 @@
         <activity
             android:name=".EventActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".activity_employees" />
         <activity android:name=".EventViewActivity"
             android:windowSoftInputMode="adjustPan"></activity>
     </application>
