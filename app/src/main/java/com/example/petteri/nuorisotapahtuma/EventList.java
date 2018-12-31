@@ -10,11 +10,11 @@ public class EventList {
     /* Initialize 2 events as an example */
     private EventList() {
         Event newEvent1 = new Event("Junnukertsi Aamu", "12:00", "16:00", "Ahjola",
-                "24/12", "Kivaa yhdessäoloa", "6-10");
+                "24/12", "Kivaa yhdessäoloa", "6-10", "404");
         event_list.add(newEvent1);
 
         Event newEvent2 = new Event("Junnukertsi Ilta", "18:00", "22:00", "Ahjola",
-                "24/12", "Kivaa yhdessäoloa", "10-16");
+                "24/12", "Kivaa yhdessäoloa", "10-16", "12");
         event_list.add(newEvent2);
     }
 
@@ -34,8 +34,8 @@ public class EventList {
     public void removeEvent(int index) {
         event_list.remove(index);
     }
-    public void createEvent(String name, String begins, String ends, String place, String date, String info, String ages) {
-        Event new_event = new Event(name, begins, ends, place, date, info, ages);
+    public void createEvent(String name, String begins, String ends, String place, String date, String info, String ages, String visitors) {
+        Event new_event = new Event(name, begins, ends, place, date, info, ages, visitors);
         event_list.add(new_event);
     }
 

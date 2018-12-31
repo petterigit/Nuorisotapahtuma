@@ -62,8 +62,9 @@ public class XmlHandler {
                     String e_date = element.getElementsByTagName("date").item(0).getTextContent();
                     String e_info = element.getElementsByTagName("info").item(0).getTextContent();
                     String e_ages = element.getElementsByTagName("ages").item(0).getTextContent();
+                    String e_visitors = element.getElementsByTagName("visitors").item(0).getTextContent();
 
-                    event_list.createEvent(e_name, e_begins, e_ends, e_place, e_date, e_info, e_ages);
+                    event_list.createEvent(e_name, e_begins, e_ends, e_place, e_date, e_info, e_ages, e_visitors);
                 }
             }
         } catch (IOException e) {
@@ -75,71 +76,6 @@ public class XmlHandler {
         } finally {
             System.out.println("Done reading from: " + fileLoc);
         }
-    }
-
-
-    /* Created with example from:
-        https://examples.javacodegeeks.com/core-java/xml/parsers/documentbuilderfactory/create-xml-file-in-java-using-dom-parser-example/
-     */
-    public void initXML(Context context) {
-
-        contextWrapper = new ContextWrapper(context);
-        String fileLoc = contextWrapper.getFilesDir().toString();
-        fileLoc = fileLoc + "/EventsXML.xml";
-        try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.newDocument();
-
-            Element root0 = document.createElement("Events");
-            document.appendChild(root0);
-
-            Element root = document.createElement("Event");
-            root0.appendChild(root);
-
-            Element name = document.createElement("name");
-            name.appendChild(document.createTextNode("Junnukertsi Yö"));
-            root.appendChild(name);
-
-            Element begins = document.createElement("begins");
-            begins.appendChild(document.createTextNode("02:00"));
-            root.appendChild(begins);
-
-            Element ends = document.createElement("ends");
-            ends.appendChild(document.createTextNode("06:00"));
-            root.appendChild(ends);
-
-            Element place = document.createElement("place");
-            place.appendChild(document.createTextNode("Ahjola"));
-            root.appendChild(place);
-
-            Element date = document.createElement("date");
-            date.appendChild(document.createTextNode("01/01"));
-            root.appendChild(date);
-
-            Element info = document.createElement("info");
-            info.appendChild(document.createTextNode("Jee"));
-            root.appendChild(info);
-
-            Element ages = document.createElement("ages");
-            ages.appendChild(document.createTextNode("18-99"));
-            root.appendChild(ages);
-
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource domSource = new DOMSource(document);
-            StreamResult streamResult = new StreamResult(new File(fileLoc));
-
-            transformer.transform(domSource, streamResult);
-
-        } catch (ParserConfigurationException pce) {
-            pce.printStackTrace();
-        } catch (TransformerException te) {
-            te.printStackTrace();
-        } finally {
-            System.out.println("Initialized xml file to: " + fileLoc);
-        }
-
     }
 
     /* Created with example from:
@@ -192,6 +128,10 @@ public class XmlHandler {
                 Element ages = document.createElement("ages");
                 ages.appendChild(document.createTextNode(event.getAges()));
                 root.appendChild(ages);
+
+                Element visitors = document.createElement("visitors");
+                visitors.appendChild(document.createTextNode(event.getVisitors()));
+                root.appendChild(visitors);
             }
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();

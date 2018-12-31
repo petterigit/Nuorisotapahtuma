@@ -101,8 +101,6 @@ public class EventViewActivity extends AppCompatActivity {
         event.setInfo(editInfo.getText().toString());
         event.setAges(editAges.getText().toString());
         event.setVisitors(editVisitors.getText().toString());
-
-        XmlHandler.getInstance().writeXML(context);
         Intent intent = new Intent(this, EventActivity.class);
         startActivity(intent);
 

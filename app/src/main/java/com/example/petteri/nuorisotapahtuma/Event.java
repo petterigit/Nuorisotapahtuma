@@ -21,7 +21,7 @@ public class Event {
     }
 
     /* Constructor */
-    public Event(String name, String begins, String ends, String place, String date, String info, String ages) {
+    public Event(String name, String begins, String ends, String place, String date, String info, String ages, String visitors) {
         this.name = name;
         this.begins = begins;
         this.ends = ends;
@@ -29,6 +29,7 @@ public class Event {
         this.date = date;
         this.info = info;
         this.ages = ages;
+        this.visitors = visitors;
     }
 
 

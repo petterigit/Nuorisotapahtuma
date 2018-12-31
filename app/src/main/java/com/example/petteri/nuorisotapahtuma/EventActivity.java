@@ -58,7 +58,7 @@ public class EventActivity extends AppCompatActivity {
     /* Add a blank event and refresh list */
     public void addEvent(View v) {
         EventList.getInstance().createEvent("Uusi tapahtuma", "", "",
-                "", "", "", "");
+                "", "", "", "", "");
         refresh();
     }
 
